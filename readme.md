@@ -25,4 +25,11 @@ Or just download from [here](https://curl.haxx.se/download.html) to install it o
 ### Run
 Use `ruby main.rb` to run
 
+### Run examples
+`ruby main.rb --u=https://www.petsonic.com/snacks-huesos-para-perros/ --o=out`
+`ruby main.rb --u=https://www.petsonic.com/snacks-huesos-para-perros/ --o=out.csv` - same as previous
+`ruby main.rb --u=https://www.petsonic.com/snacks-huesos-para-perros/?categorias=barritas-para-perros --o=out`
+`ruby main.rb --u=https://www.petsonic.com/snacks-huesos-para-perros/ --c=?categorias=barritas-para-perros --o=out`  - same as previous
+`ruby main.rb -h` or `ruby main.rb -help` - help
+
 Original repository: [HelloRuby](https://github.com/DangouHaim/HelloRuby)

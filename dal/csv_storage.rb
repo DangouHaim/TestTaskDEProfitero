@@ -15,6 +15,8 @@ module DAL
             begin
                 file = file.to_s()
                 data = data.to_a()
+
+                file = file + '.csv' if !file.include?('.csv')
     
                 CSV.open(file, "w") do |w|
                     data.each() do |line|

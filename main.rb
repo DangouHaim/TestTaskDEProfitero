@@ -1,11 +1,11 @@
 load 'dal/network_repository.rb'
-load 'dal/csv_storage.rb'
 load 'dal/event.rb'
 load 'main_handler.rb'
 
 require 'rubygems'
 require 'thread/pool'
 require 'concurrent'
+require 'optparse'
 require 'pry'
 
 class Main
@@ -15,19 +15,23 @@ class Main
     
     private
     attr_writer :on_data_ready
+    attr_accessor :source, :category, :csv_file
 
     @repository
     @pool
 
-    def initialize
+    def initialize(source = 'https://www.petsonic.com/snacks-huesos-para-perros/',
+        category = '?categorias=barritas-para-perros', csv_file = 'results')
         puts ">> #{self.class} : #{__method__}"
 
         # Prepare event
         self.on_data_ready = Event.new
 
-        source = 'https://www.petsonic.com/snacks-huesos-para-perros/'
+        self.source = source
+        self.category = category
+        self.csv_file = csv_file
 
-        @repository = NetworkRepository.new(source, true)
+        @repository = NetworkRepository.new(self.source, true)
 
         call = Proc.new { init }
 
@@ -39,7 +43,7 @@ class Main
     def init
         puts ">> #{self.class} : #{__method__}"
 
-        categoryPage = '?categorias=barritas-para-perros'
+        categoryPage = self.category
         pageButton = '//div[@class="pro_outer_box"]/div[contains(@class, "product-desc")]/a[1]/@href'
         pagination = "p"
 
@@ -114,7 +118,7 @@ class Main
 
         @pool.shutdown
 
-        self.on_data_ready.invoke(self, results)
+        self.on_data_ready.invoke(self, [self.csv_file, results])
 
         puts "<< #{self.class} : #{__method__}"
     end
@@ -129,7 +133,17 @@ def elapsed(method)
 end
 
 def main
-    main = Main.new
+
+    # Parse args
+    options = {}
+    OptionParser.new do |opt|
+        opt.on('--u URI') { |o| options[:uri] = o }
+        opt.on('--c CATEGORY') { |o| options[:category] = o }
+        opt.on('--o CSV') { |o| options[:csv] = o }
+    end.parse!
+
+    main = Main.new(options[:uri], options[:category], options[:csv])
+
     handler = MainHandler.new
 
     # Bind event handlers
