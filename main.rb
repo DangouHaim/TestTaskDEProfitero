@@ -24,13 +24,13 @@ class Main
         # Prepare event
         self.on_data_ready = Event.new
 
-        source = 'http://arcosplus.by/'
+        source = 'https://www.petsonic.com/snacks-huesos-para-perros/'
 
         @repository = NetworkRepository.new(source, true)
 
         call = Proc.new { init() }
 
-        p "Init elapsed time : " + elapsed(call)[0].to_s()
+        p 'Init elapsed time : ' + elapsed(call)[0].to_s()
 
         puts "<< #{self.class} : #{__method__}"
     end
@@ -38,9 +38,8 @@ class Main
     def init()
         puts ">> #{self.class} : #{__method__}"
 
-        categoryPage = "/katalog-kofe/?dataType=Vergnano"
-        pageButton = '//div[@class="post"]//a[@class="button"]/@href'
-        core_count = 8
+        categoryPage = '?categorias=barritas-para-perros'
+        pageButton = '//div[@class="pro_outer_box"]//a/@href'
 
         context = Context.new(categoryPage, pageButton)
             
@@ -66,7 +65,7 @@ class Main
 
                 @pool.process do
                     call = Proc.new do
-                        @repository.get(page, [ "//div[@class='content']/h3", "//div[@class='content']/p" ])
+                        @repository.get(page, [ '//h1[@class="product_main_name"]' ])
                     end
     
                     res = elapsed(call)
@@ -75,10 +74,8 @@ class Main
                     elapsed_times << res[0].to_s()
                     
                     result = []
-                    
+
                     result << res[1][0][0].children.text.strip()
-                    result << res[1][1][0].children.text.strip()
-                    result << res[0].to_s()
     
                     results << result
                 end
@@ -112,13 +109,9 @@ def main()
     # Process data
     call = Proc.new { main.parse() }
 
-    elapsed = []
+    elapsed = "Parse elapsed time: " + elapsed(call)[0].to_s()
 
-    elapsed << "Parse elapsed time: " + elapsed(call)[0].to_s()
-    # Call this twice to show optimized cached call
-    elapsed << "Parse elapsed time: " + elapsed(call)[0].to_s()
-
-    elapsed.each &(-> (s) { p s })
+    p elapsed
 end
 
 call = Proc.new { main() }
