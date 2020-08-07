@@ -2,7 +2,7 @@
 module DAL
     module InterfaceBase
         
-        protected
+        private
         def not_implemented()
             raise("Not implemented")
         end

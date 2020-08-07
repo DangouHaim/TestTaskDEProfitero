@@ -30,6 +30,9 @@ Use `ruby main.rb` to run
 `ruby main.rb --u=https://www.petsonic.com/snacks-huesos-para-perros/ --o=out.csv` - same as previous
 `ruby main.rb --u=https://www.petsonic.com/snacks-huesos-para-perros/?categorias=barritas-para-perros --o=out`
 `ruby main.rb --u=https://www.petsonic.com/snacks-huesos-para-perros/ --c=?categorias=barritas-para-perros --o=out`  - same as previous
+`ruby main.rb --u=https://www.petsonic.com/tienda-perros/ --o=out` - so long request
+`ruby main.rb` - to run with debug params (90 products)
+
 `ruby main.rb -h` or `ruby main.rb -help` - help
 
 Original repository: [HelloRuby](https://github.com/DangouHaim/HelloRuby)

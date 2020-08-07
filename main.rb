@@ -20,8 +20,7 @@ class Main
     @repository
     @pool
 
-    def initialize(source = 'https://www.petsonic.com/snacks-huesos-para-perros/',
-        category = '?categorias=barritas-para-perros', csv_file = 'results')
+    def initialize(source, category, csv_file)
         puts ">> #{self.class} : #{__method__}"
 
         # Prepare event
@@ -141,6 +140,15 @@ def main
         opt.on('--c CATEGORY') { |o| options[:category] = o }
         opt.on('--o CSV') { |o| options[:csv] = o }
     end.parse!
+
+    # Debug default values
+    if !options[:uri]
+        options[:uri] = 'https://www.petsonic.com/snacks-huesos-para-perros/'
+    end
+
+    if !options[:csv]
+        options[:csv] = 'results'
+    end
 
     main = Main.new(options[:uri], options[:category], options[:csv])
 
