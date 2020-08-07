@@ -4,7 +4,12 @@
 
 ### Requirements
 
-You must have latest Ruby installed on your OS
+You must have latest `Ruby` installed on your OS
+Follow [this](https://www.ruby-lang.org/en/documentation/installation/) page to install Ruby on your OS
+
+You must have `libcurl` installed on your OS
+Use sudo `apt-get install libcurl4-openssl-dev` or `sudo apt-get install libcurl4-gnutls-dev` to install it on Linux
+Or just download from [here](https://curl.haxx.se/download.html) to install it on Windows
 
 ### Dependencies
 `nokogiri`,

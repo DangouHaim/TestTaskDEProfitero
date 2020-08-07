@@ -4,6 +4,7 @@ load 'dal/context.rb'
 require 'net/http'
 require 'digest/sha1'
 require 'nokogiri'
+require 'curb'
 
 module DAL
 
@@ -113,13 +114,17 @@ module DAL
         end
 
         # Get parsed page data by url or relative url
-        def get_page(uri, conditions)
+        def get_page(uri, conditions, use_curl = true)
             uri = uri.to_s()
             
             uri = URI::join(self.source, uri).to_s if !uri.include?(self.source)
             uri = URI.parse(uri)
 
-            html = Net::HTTP.get(uri)
+            if(use_curl)
+                html = Curl.get(uri).body_str()
+            else
+                html = Net::HTTP.get(uri)
+            end
 
             if self.cached
                 # Caching html parsing to not repeat same operations

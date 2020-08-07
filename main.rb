@@ -6,6 +6,7 @@ load 'main_handler.rb'
 require 'rubygems'
 require 'thread/pool'
 require 'concurrent'
+require 'pry'
 
 class Main
     include DAL
@@ -39,7 +40,7 @@ class Main
         puts ">> #{self.class} : #{__method__}"
 
         categoryPage = '?categorias=barritas-para-perros'
-        pageButton = '//div[@class="pro_outer_box"]//a/@href'
+        pageButton = '//div[@class="pro_outer_box"]/div[contains(@class, "product-desc")]/a[1]/@href'
 
         context = Context.new(categoryPage, pageButton)
             
@@ -59,25 +60,41 @@ class Main
 
         # Using thread pool to optimize accessing to threads
         @pool = Thread.pool(8)
-
+        p @repository.all().size
         if(@repository.any?())
             @repository.all().each() do |page|
 
                 @pool.process do
                     call = Proc.new do
-                        @repository.get(page, [ '//h1[@class="product_main_name"]' ])
+                        @repository.get(page, [ '//h1[@class="product_main_name"]',
+                        '//label[contains(@class, "label_comb_price")]'
+                     ])
                     end
     
                     res = elapsed(call)
     
                     puts 'Get elapsed time : ' + res[0].to_s()
                     elapsed_times << res[0].to_s()
-                    
-                    result = []
 
-                    result << res[1][0][0].children.text.strip()
-    
-                    results << result
+                    # Get product title
+                    product = res[1][0][0].children.text.strip()
+
+                    res[1][1].each_with_index() do |item, i|
+
+                        result = []
+                        
+                        # Get variation title
+                        title = item.xpath('//span[@class="radio_label"]').children[i].text.strip()
+                        # Get variation price
+                        price = item.xpath('//span[@class="price_comb"]').children[i].text.strip()
+
+                        result << product + " - " + title
+                        result << price
+
+                        results << result
+
+                    end
+                    
                 end
 
             end

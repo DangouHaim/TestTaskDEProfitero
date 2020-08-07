@@ -22,7 +22,7 @@
                 "kind": "build",
                 "isDefault": true
             }
-        },
+        }
 
     ]
 }

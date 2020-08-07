@@ -18,7 +18,7 @@ module DAL
     
                 CSV.open(file, "w") do |w|
                     data.each() do |line|
-                        w << line
+                        w << line.to_a()
                     end
                 end 
             rescue => exception
