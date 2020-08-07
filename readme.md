@@ -1,4 +1,4 @@
-# Hello Ruby
+# Test task DE Profitero
 
 ## Getting Started
 
@@ -19,3 +19,5 @@ You must have latest Ruby installed on your OS
 
 ### Run
 Use `ruby main.rb` to run
+
+Original repository: [HelloRuby](https://github.com/DangouHaim/HelloRuby)

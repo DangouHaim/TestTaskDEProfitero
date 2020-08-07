@@ -1,0 +1,19 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    concurrent-ruby (1.1.6)
+    mini_portile2 (2.4.0)
+    nokogiri (1.10.10)
+      mini_portile2 (~> 2.4.0)
+    thread (0.2.2)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  concurrent-ruby
+  nokogiri
+  thread
+
+BUNDLED WITH
+   2.1.4

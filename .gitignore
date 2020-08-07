@@ -2,3 +2,4 @@
 
 # Stored data
 *.csv
+/.bundle/

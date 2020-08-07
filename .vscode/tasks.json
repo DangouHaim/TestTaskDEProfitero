@@ -4,7 +4,7 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Build",
+            "label": "BuildWindows",
             "type": "shell",
             "command": "clear | bundler install | ruby main.rb",
             "problemMatcher": [],
@@ -12,6 +12,17 @@
                 "kind": "build",
                 "isDefault": true
             }
-        }
+        },
+        {
+            "label": "BuildLinux",
+            "type": "shell",
+            "command": "clear && bundler install && ruby main.rb",
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+
     ]
 }
