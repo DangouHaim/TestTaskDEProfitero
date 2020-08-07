@@ -39,11 +39,11 @@ class Main
     def init()
         puts ">> #{self.class} : #{__method__}"
 
-        categoryPage = '?categorias=barritas-para-perros'
+        categoryPage = ''
         pageButton = '//div[@class="pro_outer_box"]/div[contains(@class, "product-desc")]/a[1]/@href'
+        pagination = "p"
 
-        context = Context.new(categoryPage, pageButton)
-            
+        context = Context.new(categoryPage, pageButton, pagination)
         
         @repository.context = context
 
@@ -60,14 +60,15 @@ class Main
 
         # Using thread pool to optimize accessing to threads
         @pool = Thread.pool(8)
-        p @repository.all().size
+        
         if(@repository.any?())
             @repository.all().each() do |page|
 
                 @pool.process do
                     call = Proc.new do
                         @repository.get(page, [ '//h1[@class="product_main_name"]',
-                        '//label[contains(@class, "label_comb_price")]'
+                        '//label[contains(@class, "label_comb_price")]',
+                        '//img[@id="bigpic"]/@src'
                      ])
                     end
     
@@ -79,10 +80,13 @@ class Main
                     # Get product title
                     product = res[1][0][0].children.text.strip()
 
+                    # Get product photo
+                    image = res[1][2][0].children.text.strip()
+
                     res[1][1].each_with_index() do |item, i|
 
                         result = []
-                        
+
                         # Get variation title
                         title = item.xpath('//span[@class="radio_label"]').children[i].text.strip()
                         # Get variation price
@@ -90,6 +94,7 @@ class Main
 
                         result << product + " - " + title
                         result << price
+                        result << image
 
                         results << result
 
