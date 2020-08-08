@@ -30,7 +30,7 @@ class Main
         self.category = category
         self.csv_file = csv_file
 
-        @repository = NetworkRepository.new(self.source, true)
+        @repository = NetworkRepository.new(self.source, false)
 
         call = Proc.new { init }
 
