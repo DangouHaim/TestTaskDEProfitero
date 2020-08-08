@@ -2,4 +2,5 @@
 
 # Stored data
 *.csv
+*.lock
 /.bundle/

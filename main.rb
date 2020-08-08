@@ -11,11 +11,10 @@ require 'pry'
 class Main
     include DAL
 
-    attr_reader :on_data_ready
+    attr_reader :on_data_ready, :source, :category, :csv_file
     
     private
-    attr_writer :on_data_ready
-    attr_accessor :source, :category, :csv_file
+    attr_writer :on_data_ready, :source, :category, :csv_file
 
     @repository
     @pool
