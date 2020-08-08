@@ -4,7 +4,7 @@
 
 ### Requirements
 
-You must have latest `Ruby` installed on your OS
+You must have latest `Ruby` installed on your OS (at least `ruby 2.7.0p0 (2019-12-25 revision 647ee6f091)`)
 Follow [this](https://www.ruby-lang.org/en/documentation/installation/) page to install Ruby on your OS
 
 You must have `libcurl` installed on your OS
@@ -14,7 +14,9 @@ Or just download from [here](https://curl.haxx.se/download.html) to install it o
 ### Dependencies
 `nokogiri`,
 `thread`,
-`concurrent-ruby`
+`concurrent-ruby`,
+`curb`,
+`pry`
 
 ### Installing
 
