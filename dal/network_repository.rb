@@ -19,10 +19,10 @@ module DAL
         include ReadOnlyNetworkRepository
         
         # Context for collecting urls (for all and any? methods)
-        attr_reader :context, :cached, :source, :pages, :use_curl
+        attr_reader :context, :cached, :source, :pages, :use_curl, :pages_processed
 
         private
-        attr_writer :cached, :source, :pages, :use_curl
+        attr_writer :cached, :source, :pages, :use_curl, :pages_processed
         
         @cache = nil
 
@@ -32,6 +32,7 @@ module DAL
             self.use_curl = use_curl
             self.cached = cached
             self.source = source_uri.to_s
+            self.pages_processed = 0
 
             # Method caching
             if self.cached
@@ -93,6 +94,7 @@ module DAL
         private
 
         def get_html(uri)
+            self.pages_processed += 1
             if(self.use_curl)
                 html = Curl.get(uri).body_str
             else

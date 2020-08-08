@@ -117,7 +117,7 @@ class Main
 
         @pool.shutdown
 
-        self.on_data_ready.invoke(self, [self.csv_file, results])
+        self.on_data_ready.invoke(self, [ self.csv_file, results, @repository.pages_processed ])
 
         puts "<< #{self.class} : #{__method__}"
     end
@@ -160,11 +160,11 @@ def main
     # Process data
     call = Proc.new { main.parse }
 
-    elapsed = "Parse elapsed time: " + elapsed(call)[0].to_s
+    elapsed = "===  Total parsing elapsed time: " + elapsed(call)[0].to_s
 
-    p elapsed
+    puts elapsed
 end
 
 call = Proc.new { main }
 
-puts "Total elapsed time: " + elapsed(call)[0].to_s
+puts "===  Total elapsed time: " + elapsed(call)[0].to_s
