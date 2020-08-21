@@ -12,9 +12,10 @@ class Main
     include DAL
 
     attr_reader :on_data_ready, :source, :category, :csv_file
+    attr_writer :on_data_ready
     
     private
-    attr_writer :on_data_ready, :source, :category, :csv_file
+    attr_writer :source, :category, :csv_file
 
     @repository
     @pool
@@ -120,6 +121,12 @@ class Main
 
         puts "<< #{self.class} : #{__method__}"
     end
+
+    def on_data_ready=(event)
+        raise "Argument must be Event" if !event.is_a? Event
+
+        @on_data_ready = event
+    end
 end
 
 def elapsed(method)
@@ -153,8 +160,10 @@ def main
 
     handler = MainHandler.new
 
+    on_data_handler = handler.method(:on_data_handler)
+
     # Bind event handlers
-    main.on_data_ready.bind(handler.method(:on_data_handler))
+    main.on_data_ready += on_data_handler
 
     # Process data
     call = Proc.new { main.parse }

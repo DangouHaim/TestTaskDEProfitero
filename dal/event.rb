@@ -11,12 +11,22 @@ module DAL
             self.handlers = []
         end
         
+        def +(handler)
+            bind(handler)
+            return self
+        end
+
+        def -(handler)
+            unbind(handler)
+            return self
+        end
+
         def bind(handler)
             self.handlers << check_handler(handler)
         end
 
         def unbind(handler)
-            self.handlers.remove(check_handler(handler))
+            self.handlers.delete(check_handler(handler))
         end
 
         def invoke(sender, args)
@@ -25,7 +35,7 @@ module DAL
 
         private
         def check_handler(handler)
-            if !handler.is_a?(Method)
+            if !handler.is_a? Method
                 raise "Handler must be a Method"
             end
 
